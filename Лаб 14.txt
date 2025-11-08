@@ -1,0 +1,89 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Программа для поиска строки с наибольшим количеством положительных элементов в матрице");
+        Console.WriteLine();
+
+        // Ввод размеров матрицы
+        Console.Write("Введите количество строк (N): ");
+        int n = int.Parse(Console.ReadLine());
+
+        Console.Write("Введите количество столбцов (M): ");
+        int m = int.Parse(Console.ReadLine());
+
+        // Создание и заполнение матрицы
+        int[,] matrix = new int[n, m];
+        Console.WriteLine("\nВведите элементы матрицы:");
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                Console.Write($"Элемент [{i},{j}]: ");
+                matrix[i, j] = int.Parse(Console.ReadLine());
+            }
+        }
+
+        // Вывод исходной матрицы
+        Console.WriteLine("\nИсходная матрица:");
+        PrintMatrix(matrix);
+
+        // Поиск строки с максимальным количеством положительных элементов
+        int maxPositiveCount = -1;
+        int maxRowIndex = -1;
+
+        for (int i = 0; i < n; i++)
+        {
+            int positiveCount = 0;
+
+            // Подсчет положительных элементов в текущей строке
+            for (int j = 0; j < m; j++)
+            {
+                if (matrix[i, j] > 0)
+                {
+                    positiveCount++;
+                }
+            }
+
+            // Проверка, является ли текущая строка новой максимальной
+            if (positiveCount > maxPositiveCount)
+            {
+                maxPositiveCount = positiveCount;
+                maxRowIndex = i;
+            }
+
+            Console.WriteLine($"Строка {i}: положительных элементов = {positiveCount}");
+        }
+
+        // Вывод результата
+        Console.WriteLine("\nРезультат:");
+        if (maxPositiveCount > 0)
+        {
+            Console.WriteLine($"Строка с наибольшим количеством положительных элементов: {maxRowIndex}");
+            Console.WriteLine($"Количество положительных элементов: {maxPositiveCount}");
+        }
+        else
+        {
+            Console.WriteLine("В матрице нет положительных элементов");
+        }
+    }
+
+    // Метод для вывода матрицы на экран
+    static void PrintMatrix(int[,] matrix)
+    {
+        int rows = matrix.GetLength(0);
+        int cols = matrix.GetLength(1);
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                Console.Write($"{matrix[i, j],4}");
+            }
+            Console.WriteLine();
+        }
+    }
+}

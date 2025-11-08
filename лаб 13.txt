@@ -1,0 +1,125 @@
+using Microsoft.VisualStudio.TestPlatform.TestHost;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
+using System.Reflection;
+
+[TestClass]
+public class BlackBoxTests
+{
+    private StringWriter stringWriter;
+    private StringReader stringReader;
+    private TextWriter originalOutput;
+    private TextReader originalInput;
+
+    [TestInitialize]
+    public void Initialize()
+    {
+        originalOutput = Console.Out;
+        originalInput = Console.In;
+        stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+    }
+
+    [TestCleanup]
+    public void Cleanup()
+    {
+        Console.SetOut(originalOutput);
+        Console.SetIn(originalInput);
+        stringWriter.Dispose();
+    }
+
+    private void RunProgram(string input)
+    {
+        stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+
+        var programType = typeof(Program);
+        var mainMethod = programType.GetMethod("Main", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
+
+        if (mainMethod == null)
+        {
+            throw new InvalidOperationException("Метод Main не найден");
+        }
+
+        mainMethod.Invoke(null, new object[] { null });
+    }
+
+    // Тест 1: Все столбцы содержат положительные элементы
+    [TestMethod]
+    public void TestAllColumnsPositive()
+    {
+        string input = "2\n2\n1\n2\n3\n4\n5\n6\n7\n8";
+        RunProgram(input);
+
+        string output = stringWriter.ToString();
+        Assert.IsTrue(output.Contains("Номера столбцов с только положительными элементами: 1 2"));
+    }
+
+    // Тест 2: Один столбец содержит отрицательный элемент
+    [TestMethod]
+    public void TestOneColumnWithNegative()
+    {
+        string input = "2\n2\n1\n-2\n3\n4\n5\n6\n7\n8";
+        RunProgram(input);
+
+        string output = stringWriter.ToString();
+        Assert.IsTrue(output.Contains("Номера столбцов с только положительными элементами: 1"));
+    }
+
+    // Тест 3: Все элементы отрицательные
+    [TestMethod]
+    public void TestAllNegative()
+    {
+        string input = "2\n2\n-1\n-2\n-3\n-4\n-5\n-6\n-7\n-8";
+        RunProgram(input);
+
+        string output = stringWriter.ToString();
+        Assert.IsTrue(output.Contains("нет таких столбцов"));
+    }
+
+    // Тест 4: Граничный случай - нулевые элементы
+    [TestMethod]
+    public void TestWithZeroElements()
+    {
+        string input = "2\n2\n1\n0\n3\n4\n5\n6\n7\n8";
+        RunProgram(input);
+
+        string output = stringWriter.ToString();
+        Assert.IsTrue(output.Contains("Номера столбцов с только положительными элементами: 1"));
+    }
+
+    // Тест 5: Минимальный размер массива 1x1
+    [TestMethod]
+    public void TestMinimalSize()
+    {
+        string input = "1\n1\n5\n5";
+        RunProgram(input);
+
+        string output = stringWriter.ToString();
+        Assert.IsTrue(output.Contains("Номера столбцов с только положительными элементами: 1"));
+    }
+
+    // Тест 6: Некорректный размер массива
+    [TestMethod]
+    public void TestInvalidSize()
+    {
+        string input = "0\n5";
+        RunProgram(input);
+
+        string output = stringWriter.ToString();
+        Assert.IsTrue(output.Contains("Размер массива должен быть в диапазоне 1–10"));
+    }
+
+    // Тест 7: Смешанные столбцы в разных массивах
+    [TestMethod]
+    public void TestMixedColumns()
+    {
+        string input = "2\n2\n1\n-2\n3\n4\n-1\n2\n-3\n4";
+        RunProgram(input);
+
+        string output = stringWriter.ToString();
+        Assert.IsTrue(output.Contains("Массив A:") && output.Contains("Номера столбцов с только положительными элементами: 1"));
+        Assert.IsTrue(output.Contains("Массив B:") && output.Contains("Номера столбцов с только положительными элементами: 2"));
+    }
+}
