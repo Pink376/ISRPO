@@ -1,0 +1,14 @@
+C:\Users\User\source\repos\Rucode\bin\Debug\net8.0\Rucode.exe
+C:\Users\User\source\repos\Rucode\bin\Debug\net8.0\Rucode.deps.json
+C:\Users\User\source\repos\Rucode\bin\Debug\net8.0\Rucode.runtimeconfig.json
+C:\Users\User\source\repos\Rucode\bin\Debug\net8.0\Rucode.dll
+C:\Users\User\source\repos\Rucode\bin\Debug\net8.0\Rucode.pdb
+C:\Users\User\source\repos\Rucode\obj\Debug\net8.0\Rucode.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\Rucode\obj\Debug\net8.0\Rucode.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\Rucode\obj\Debug\net8.0\Rucode.AssemblyInfo.cs
+C:\Users\User\source\repos\Rucode\obj\Debug\net8.0\Rucode.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Rucode\obj\Debug\net8.0\Rucode.dll
+C:\Users\User\source\repos\Rucode\obj\Debug\net8.0\refint\Rucode.dll
+C:\Users\User\source\repos\Rucode\obj\Debug\net8.0\Rucode.pdb
+C:\Users\User\source\repos\Rucode\obj\Debug\net8.0\Rucode.genruntimeconfig.cache
+C:\Users\User\source\repos\Rucode\obj\Debug\net8.0\ref\Rucode.dll
